@@ -1,0 +1,5 @@
+client_secret.json
+datastore_key.json
+node_modules/
+sessions/
+*.log
