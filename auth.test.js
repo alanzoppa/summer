@@ -1,18 +1,8 @@
-import {getOauth2Client, readSecret, oauth2Client} from './oauth';
-import {getOrUpdateUser, findToken, getAndSaveAuthFromCode} from './user';
+import {readSecret, oauth2Client} from './oauth';
+import {findToken, getAndSaveAuthFromCode, clientForUser} from './user';
 const {google} = require('googleapis');
 const nock = require('nock');
 import datastore from './datastore';
-
-
-test('get or create user', (done) => {
-    getOrUpdateUser("test-123", {things: 'stuff'})
-        .then(function(result) {
-            expect(result.auth.things).toEqual('stuff');
-            expect(result.user_id).toEqual('test-123');
-            done();
-        })
-})
 
 
 test('findToken returns a token object', (done)=> {
@@ -81,37 +71,28 @@ test('async client gets a token for a valid user', (done)=> {
         })
 })
 
-//test('read secret', (done)=> {
-
-    //function listEvents(auth, cb) {
-        //const calendar = google.calendar({version: 'v3', auth});
-        //calendar.events.list({
-            //calendarId: 'primary',
-            //timeMin: (new Date()).toISOString(),
-            //maxResults: 10,
-            //singleEvents: true,
-            //orderBy: 'startTime',
-        //}, (err, {data}) => {
-            //if (err) return console.log('The API returned an error: ' + err);
-            //console.log(data);
-        //});
-        //cb();
-    //} 
+test('clientForUser returns an authenticated client', (done)=> {
+    const scope = nock("http://www.whocares.nothing/");
+    clientForUser('112328053981550743186').then( client => {
+        expect( client.credentials.access_token ).toMatch(/.+/);
+        expect( client.credentials.refresh_token).toMatch(/.+/);
+        done();
+    })
+})
 
 
-    //readSecret()
-        //.then(
-        //(secret)=> {
-            //console.log(secret);
-            //const oAuth2Client = getOauth2Client(secret);
-            //oAuth2Client.setCredentials(
-                //{
-                    //access_token: "ya29.GluXBdtiibLvNzinD_TFtchN6Lohn1yRRvaTl0JmBZ5BNuit6WavuQ3QCIaYEr96qs2iJEadRQ2nzxcbErN6VM3-LQSjR6hZK4nuQwMtN9pTThuY5NVJk70285Qg",
-                    //refresh_token: "1/bkcllZXRXAS3Te-s1e7o2GNzawF8js_-CMbuykBHT3g"
-                //}
-            //);
-            //listEvents(oAuth2Client, done);
-        //}
-    //)
-
-//})
+test("clientForUser should work with an auth", (done)=> {
+    const auth = {
+        id: "foo",
+        token: {
+            access_token: '123',
+            refresh_token: '456',
+            expiry_date: 1523243158303
+            }
+    };
+    clientForUser(auth).then( client => {
+        expect( client.credentials.access_token ).toEqual('123')
+        expect( client.credentials.refresh_token).toEqual('456')
+        done();
+    });
+})

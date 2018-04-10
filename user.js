@@ -59,18 +59,16 @@ export async function findToken(user_id, code) {
         const auth = await getAndSaveAuthFromCode(null, code);
         await upsertUser(auth);
         user_id = auth.id
-        //return auth;
     }
     const result = await datastore.get(key(user_id))
     if (result[0] == undefined) { throw "User: "+user_id+" is not in the datastore"; }
     return formatAuth(user_id, result[0]);
 }
 
-
-
-export const getOrUpdateUser = (user_id, data) => { 
-    const key = datastore.key(['GoogleUser', user_id]);
-    return datastore.upsert({key: key, data: data}).then( results => {
-        return getUser(user_id);
-    }) 
+// accepts either a user id or auth object
+export async function clientForUser(auth) {
+    if (typeof auth != "object") {
+        auth = await findToken(auth);
+    }
+    return oauth2Client(auth.token);
 }

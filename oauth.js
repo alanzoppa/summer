@@ -17,7 +17,7 @@ export const readSecret = () => {
 
 export const getOauth2Client = (credentials) => {
     const {client_secret, client_id, redirect_uris} = credentials;
-    return new OAuth2(client_id, client_secret, redirect_uris[0]);
+    return new OAuth2(client_id, client_secret);
 }
 
 export async function oauth2Client(token) {
