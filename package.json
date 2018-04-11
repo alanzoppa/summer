@@ -20,8 +20,9 @@
     "session-file-store": "^1.2.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "test":  "node_modules/.bin/jest ./test.js"
+    "n": "node_modules/babel-cli/bin/babel-node.js",
+    "start": "node_modules/nodemon/bin/nodemon.js node_modules/babel-cli/bin/babel-node.js index.js",
+    "test":  "node_modules/.bin/jest"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

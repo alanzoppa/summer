@@ -42,6 +42,9 @@ function getUserId(client) {
     })
 }
 
+
+
+
 export async function getAndSaveAuthFromCode(user_id, code) {
     const client = await oauth2Client();
     const tokenResponse = await client.getToken(code);

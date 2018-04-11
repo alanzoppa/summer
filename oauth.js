@@ -15,9 +15,9 @@ export const readSecret = () => {
 
 
 
-export const getOauth2Client = (credentials) => {
-    const {client_secret, client_id, redirect_uris} = credentials;
-    return new OAuth2(client_id, client_secret);
+export const getOauth2Client = (secret) => {
+    const {client_secret, client_id} = secret;
+    return new OAuth2(client_id, client_secret, "http://localhost:8080/oauth2callback");
 }
 
 export async function oauth2Client(token) {
@@ -30,7 +30,7 @@ export async function oauth2Client(token) {
 }
 
 export async function url() {
-    const client = await oauth2Client();
+    const client = await oauth2Client(undefined);
     return client.generateAuthUrl({
         access_type: 'offline',
         scope: [

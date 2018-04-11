@@ -18,7 +18,7 @@ app.use(session({
 })); 
 
 app.get('/oauth2callback', function(req,res) {
-    const plus = google.plus('v1');
+	console.log(req.query);
     const code = req.query.code;
 
     findToken(null, code).then( auth => {
@@ -49,9 +49,10 @@ app.get('/events', function(req,res) {
 })
 
 
-app.get('/login', function (req, res) {
-    url().then( url => {res.redirect(url)})
+app.get('/login', async function (req, res) {
+    res.redirect(await url())
 })
+
 
 app.get('/list', function(req,res) {
 
