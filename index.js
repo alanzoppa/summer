@@ -1,21 +1,52 @@
 import datastore from './datastore';
 import {oauth2Client, url} from './oauth';
-const {google} = require('googleapis');
-
-import {findToken} from './user';
-
-
+const {google} = require('googleapis'); 
+import {findToken} from './user'; 
 const express = require('express')
 const session = require('express-session')
 var FileStore = require('session-file-store')(session);
 const app = express();
 
-app.set('trust proxy', 1) // trust first proxy
+
+//const { buildSchema } = require('graphql');
+import {graphqlExpress } from 'apollo-server-express';
+
+import {schema} from './schema';
+
+import bodyParser from 'body-parser';
+
+
+
 
 app.use(session({
     store: new FileStore({}),
     secret: 'bubkis'
 })); 
+
+
+app.use(
+    '/graphql',
+    bodyParser.json(),
+
+
+
+    graphqlExpress(request => ({
+      schema: schema,
+      context: { session: request.session }
+    }))
+
+
+);
+
+
+
+//app.use('/graphql', graphqlHTTP({
+  //schema: mySchema,
+  //rootValue: root,
+  //graphiql: true
+//}));
+
+
 
 app.get('/oauth2callback', function(req,res) {
 	console.log(req.query);
