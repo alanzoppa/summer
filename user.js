@@ -11,7 +11,7 @@ const upsertUser = (auth) => {
     return datastore.upsert({key: key(auth.id), data: auth.token})
 }
 
-const formatAuth = (user_id, auth) => {
+export const formatAuth = (user_id, auth) => {
     return {
         id: user_id,
         token: {

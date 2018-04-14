@@ -23,6 +23,8 @@
     "nodemon": "^1.17.3",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
     "session-file-store": "^1.2.0"
   },
   "scripts": {

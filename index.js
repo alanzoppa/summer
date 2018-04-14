@@ -16,7 +16,7 @@ import {schema} from './schema';
 import bodyParser from 'body-parser';
 
 
-
+app.use( bodyParser.json() );
 
 app.use(session({
     store: new FileStore({}),
@@ -27,15 +27,10 @@ app.use(session({
 app.use(
     '/graphql',
     bodyParser.json(),
-
-
-
     graphqlExpress(request => ({
       schema: schema,
       context: { session: request.session }
     }))
-
-
 );
 
 
@@ -59,6 +54,12 @@ app.get('/oauth2callback', function(req,res) {
 })
 
 app.get('/session', (req,res) => {
+    res.json(req.session);
+})
+
+app.post('/session', (req,res) => {
+    //console.log(req);
+    req.session.auth = Object.assign({}, req.session.auth, req.body.auth)
     res.json(req.session);
 })
 
