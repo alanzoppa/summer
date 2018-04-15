@@ -4,11 +4,11 @@ import {findToken, formatAuth} from './user';
 import {loginUser, fakeAuth, overrideSession} from './testhelpers';
 global['fetch'] = require('fetch-cookie/node-fetch')(require('node-fetch'));
 
+
 let server;
 
-
 beforeEach(() => {
-    const app = require('./index').default;
+    const app = require('./app').default;
     server = app.listen(8080, () => console.log('Example app listening on port 8080!'))
     return server;
 })
