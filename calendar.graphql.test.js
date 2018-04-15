@@ -38,6 +38,7 @@ test('can fetch with graphQL', async (done) => {
                 kind
                 etag
                 summary
+                timeZone
             }
         }` 
     ) 

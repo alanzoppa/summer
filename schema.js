@@ -19,6 +19,7 @@ const typeDefs = `
         kind: String!
         etag: String!
         summary: String!
+        timeZone: String!
     }
 
     type Query {
@@ -38,6 +39,7 @@ const resolvers = {
         events: async (obj, args, session, info) => {
             //console.log(session.auth);
             let results = await events(session.auth, {maxResults: 1})
+            console.log(results);
             let evs = results.items.map( ev => {
                 ev.timeZone = results.timeZone
                 return ev
