@@ -3,6 +3,9 @@ import httpRequest from 'request-promise-native';
 import {findToken, formatAuth} from './user';
 import {loginUser} from './testhelpers';
 import {overrideSession} from './testhelpers';
+global['fetch'] = require('fetch-cookie/node-fetch')(require('node-fetch'));
+
+
 
 
 //test('thing', (done => {
@@ -35,12 +38,10 @@ const q = (user_id) => {
 }
 
 test('empty sessions query the datastore for users', (async (done) => {
-    //console.log(q('112328053981550743186'));
     const data = await request(
         'http://localhost:8080/graphql',
         q('112328053981550743186')
     )
-    //console.log(data);
     expect(data.user.id).toMatch(/\d+/)
     expect(data.user.token.access_token).toMatch(/.+/)
     done();
@@ -58,18 +59,16 @@ test('User(id: "me") returns the session token', async (done) => {
         }
     )
 
-    console.log(auth);
-
-    const session = await overrideSession( { auth } )
-
-    console.log(session)
+    //await overrideSession({auth}, {}, fetch);
 
     const data = await request(
         'http://localhost:8080/graphql',
         q('me')
     )
-    console.log(data);
-    expect(data.user.id).toMatch(/\d+/)
-    expect(data.user.token.access_token).toMatch(/.+/)
+
+    expect(data.user.id).toEqual('fakeid')
+    expect(data.user.token.access_token).toEqual('11111111');
+    expect(data.user.token.refresh_token).toEqual('22222222');
+    expect(data.user.token.expiry_date).toEqual("1523691899905");
     done();
 })

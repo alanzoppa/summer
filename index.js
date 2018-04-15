@@ -29,7 +29,7 @@ app.use(
     bodyParser.json(),
     graphqlExpress(request => ({
       schema: schema,
-      context: { session: request.session }
+      context: request.session
     }))
 );
 

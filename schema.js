@@ -2,8 +2,6 @@ import { makeExecutableSchema } from 'graphql-tools';
 import {findToken} from './user';
 
 
-
-
 const typeDefs = ` 
     type Token {
         access_token: String!
@@ -24,40 +22,23 @@ const typeDefs = `
 const resolvers = {
     Query: {
         user: (obj, args, session, info) => {
-            //console.log(Object.keys(arguments));
+            //console.log(obj);
             //console.log('--')
-            console.log(obj);
-            console.log('--')
-            console.log(args);
+            //console.log(args);
             console.log('--')
             console.log(session);
-            //console.log('--')
+            console.log('--')
+            if (args.id == 'me') {
+                console.log(session.auth)
+                //console.dir( Object.keys(session) )
+                //console.dir( Object.getOwnPropertyNames(session) )
+                return session.auth;
+            }
             return findToken(args.id);
-            //return {
-                //id: '123',
-                //token: {
-                    //access_token: 'aaa',
-                    //refresh_token: 'bbb',
-                    //expiry_date: 'ccc'
-                //}
-
-            //}
         }
     },
     User: {
         token: (obj, args, context, info) => {
-
-            //console.log('-----------------')
-            //console.log(obj);
-            //console.log('-----------------')
-            //console.log(args);
-            //console.log('-----------------')
-            //console.log(context);
-            //console.log('-----------------')
-            //console.log(info);
-            //console.log('-----------------')
-
-
             return obj.token 
         }
     }
@@ -65,25 +46,20 @@ const resolvers = {
 
 
 export const schema = makeExecutableSchema({
-    typeDefs, resolvers
+    typeDefs: [typeDefs],
+    resolvers: resolvers
 })
 
 
-//const mySchema = buildSchema(`
-
-    //type User {
-        //id: ID!
-        //token: Token 
+    //type: {
     //}
 
-    //type Token {
-        //access_token: String!
-        //refresh_token: String!
-        //expiry_date: String!
+    //type RootMutation {
+      //addItem (
+            //name: String!,
+            //desc: String,
+            //ownerId: ID!
+          //): Item
     //}
 
-    //type Query {
-        //user(id: ID!): User
-    //}
 
-//`);

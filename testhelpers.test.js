@@ -1,16 +1,20 @@
-import {loginUser} from './testhelpers';
+import {loginUser, fakeAuth, overrideSession} from './testhelpers';
 import httpRequest from 'request-promise-native';
+const fetch = require('fetch-cookie/node-fetch')(require('node-fetch'));
 
 
-test('loginUser', async (done) => {
-    const session = await loginUser('112328053981550743186');
-    //console.log(session);
+test('overrideSession', async (done) => {
+    const req = await overrideSession({auth: fakeAuth}, {}, fetch)
+    const session = await req.json();
 
-    expect(session.cookie).toBeInstanceOf(Object);
-    expect(session.auth).toBeInstanceOf(Object);
-    expect(session.auth.id).toMatch(/.+/);
-    expect(session.auth.token.access_token).toMatch(/.+/);
-    expect(session.auth.token.refresh_token).toMatch(/.+/);
+    const tryAgain = await fetch('http://localhost:8080/session')
+    const newSession = await tryAgain.json();
+
+    expect(newSession.cookie).toBeInstanceOf(Object);
+    expect(newSession.auth).toBeInstanceOf(Object);
+    expect(newSession.auth.id).toMatch(/.+/);
+    expect(newSession.auth.token.access_token).toMatch(/.+/);
+    expect(newSession.auth.token.refresh_token).toMatch(/.+/);
 
     done();
 })
