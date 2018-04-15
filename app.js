@@ -78,7 +78,7 @@ app.get('/events', async function(req,res) {
         const events = data.items;
         console.log(data.data);
         console.log(Object.keys(data));
-        res.json({});
+        res.json(data.data);
     });
 
 })

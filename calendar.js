@@ -23,9 +23,9 @@ export async function events(auth, params) {
         const calendar = google.calendar({version: 'v3', auth});
         calendar.events.list(
             params,
-            (err, {data}) => {
+            (err, data) => {
             if (err) reject(err);
-            resolve(data);
+            resolve(data.data);
         });
     })
 
