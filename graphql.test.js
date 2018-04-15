@@ -1,28 +1,22 @@
 import { request } from 'graphql-request';
 import httpRequest from 'request-promise-native';
 import {findToken, formatAuth} from './user';
-import {loginUser} from './testhelpers';
-import {overrideSession} from './testhelpers';
+import {loginUser, fakeAuth, overrideSession} from './testhelpers';
 global['fetch'] = require('fetch-cookie/node-fetch')(require('node-fetch'));
 
+let server;
 
 
+beforeEach(() => {
+    const app = require('./index').default;
+    server = app.listen(8080, () => console.log('Example app listening on port 8080!'))
+    return server;
+})
 
-//test('thing', (done => {
-    //var { graphql, buildSchema } = require('graphql');
+afterEach(() => {
+    return server.close();
+})
 
-    //request('http://localhost:8080/graphql', '{ hello }').then(data => console.log(data))
-    //done();
-
-//}))
-
-
-//test('stuff', async (done) => {
-
-
-    //await loginUser('112328053981550743186');
-
-//})
 
 const q = (user_id) => {
     return `{
@@ -36,6 +30,30 @@ const q = (user_id) => {
         }
     }`
 }
+
+
+test('overrideSession', async (done) => {
+    await setTimeout(1000)
+    const req = await overrideSession({auth: fakeAuth}, {}, fetch)
+    const session = await req.json();
+
+    const tryAgain = await fetch('http://localhost:8080/session',
+        { credentials: 'same-origin'}
+    )
+    const newSession = await tryAgain.json();
+
+    expect(newSession.cookie).toBeInstanceOf(Object);
+    expect(newSession.auth).toBeInstanceOf(Object);
+    expect(newSession.auth.id).toMatch(/.+/);
+    expect(newSession.auth.token.access_token).toMatch(/.+/);
+    expect(newSession.auth.token.refresh_token).toMatch(/.+/);
+
+    await setTimeout(1000);
+
+    done();
+})
+
+
 
 test('empty sessions query the datastore for users', (async (done) => {
     const data = await request(
@@ -59,7 +77,7 @@ test('User(id: "me") returns the session token', async (done) => {
         }
     )
 
-    //await overrideSession({auth}, {}, fetch);
+    await overrideSession({auth}, {}, fetch);
 
     const data = await request(
         'http://localhost:8080/graphql',

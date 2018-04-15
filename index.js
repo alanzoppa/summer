@@ -95,4 +95,9 @@ app.get('/list', function(req,res) {
     }) 
 }) 
 
-app.listen(8080, () => console.log('Example app listening on port 8080!'))
+//export app;
+
+//let server = app.listen(8080, () => console.log('Example app listening on port 8080!'))
+
+export default app;
+

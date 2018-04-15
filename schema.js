@@ -22,16 +22,7 @@ const typeDefs = `
 const resolvers = {
     Query: {
         user: (obj, args, session, info) => {
-            //console.log(obj);
-            //console.log('--')
-            //console.log(args);
-            console.log('--')
-            console.log(session);
-            console.log('--')
             if (args.id == 'me') {
-                console.log(session.auth)
-                //console.dir( Object.keys(session) )
-                //console.dir( Object.getOwnPropertyNames(session) )
                 return session.auth;
             }
             return findToken(args.id);
