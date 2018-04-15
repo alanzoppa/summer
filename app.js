@@ -63,9 +63,10 @@ app.post('/session', (req,res) => {
     res.json(req.session);
 })
 
-app.get('/events', function(req,res) {
-    const auth = getOauth2Client().setCredentials(req.session.auth);
-    const calendar = google.calendar({version: 'v3', auth});
+app.get('/events', async function(req,res) {
+    const client = await oauth2Client(req.session.auth.token);
+    //const auth = getOauth2Client().setCredentials(req.session.auth);
+    const calendar = google.calendar({version: 'v3', auth: client});
     calendar.events.list({
         calendarId: 'primary',
         timeMin: (new Date()).toISOString(),
@@ -75,7 +76,9 @@ app.get('/events', function(req,res) {
     }, (err, data) => {
         if (err) return console.log('The API returned an error: ' + err);
         const events = data.items;
-        console.log(data);
+        console.log(data.data);
+        console.log(Object.keys(data));
+        res.json({});
     });
 
 })
