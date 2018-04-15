@@ -15,11 +15,21 @@ const typeDefs = `
         token: Token
     }
 
+    type Attendee {
+        email: String
+        displayName: String
+        isSelf: Boolean
+    }
+
     type Event {
         kind: String!
         etag: String!
         summary: String!
         timeZone: String!
+        start: String!
+        end: String!
+        htmlLink: String!
+        attendees: [Attendee]
     }
 
     type Query {
@@ -37,20 +47,26 @@ const resolvers = {
             return findToken(args.id);
         },
         events: async (obj, args, session, info) => {
-            //console.log(session.auth);
             let results = await events(session.auth, {maxResults: 1})
-            console.log(results);
             let evs = results.items.map( ev => {
-                ev.timeZone = results.timeZone
-                return ev
+                ev.timeZone = results.timeZone;
+                ev.start = ev.start.dateTime || ev.start.date;
+                ev.end = ev.end.dateTime || ev.end.date;
+                console.log(ev);
+                return ev;
             });
             return evs;
         }
 
     },
     User: {
-        token: (obj, args, context, info) => {
+        token: (obj, args, session, info) => {
             return obj.token 
+        }
+    },
+    Event: {
+        attendees: (obj, args, session, info) => {
+            return obj.attendees;
         }
     }
 }
