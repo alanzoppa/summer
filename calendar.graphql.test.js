@@ -23,10 +23,24 @@ test('can fetch events', async (done) => {
     login = await login.json();
     const auth = login.auth;
     const results = await events(auth, {maxResults: 1});
-    //console.log(results);
-    //console.log( Object.keys(results) )
     expect( results.kind ).toEqual('calendar#events')
     expect( results.items.length ).toBe(1);
     expect( results.items[0] ).toBeInstanceOf(Object);
+    done();
+})
+
+
+test('can fetch with graphQL', async (done) => {
+    const data = await request(
+        'http://localhost:8080/graphql',
+        `{
+            events {
+                kind
+                etag
+                summary
+            }
+        }` 
+    ) 
+    console.log(data);
     done();
 })

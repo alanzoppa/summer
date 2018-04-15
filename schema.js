@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import {findToken} from './user';
+import {events} from './calendar';
 
 
 const typeDefs = ` 
@@ -14,8 +15,15 @@ const typeDefs = `
         token: Token
     }
 
+    type Event {
+        kind: String!
+        etag: String!
+        summary: String!
+    }
+
     type Query {
         user(id: ID): User
+        events: [Event]
     } 
 `
 
@@ -26,7 +34,17 @@ const resolvers = {
                 return session.auth;
             }
             return findToken(args.id);
+        },
+        events: async (obj, args, session, info) => {
+            //console.log(session.auth);
+            let results = await events(session.auth, {maxResults: 1})
+            let evs = results.items.map( ev => {
+                ev.timeZone = results.timeZone
+                return ev
+            });
+            return evs;
         }
+
     },
     User: {
         token: (obj, args, context, info) => {
