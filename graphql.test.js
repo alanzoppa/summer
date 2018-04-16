@@ -36,7 +36,6 @@ const q = (user_id) => {
 
 
 test('overrideSession', async (done) => {
-    await setTimeout(1000)
     const req = await overrideSession({auth: fakeAuth}, {}, fetch)
     const session = await req.json();
 
@@ -50,8 +49,6 @@ test('overrideSession', async (done) => {
     expect(newSession.auth.id).toMatch(/.+/);
     expect(newSession.auth.token.access_token).toMatch(/.+/);
     expect(newSession.auth.token.refresh_token).toMatch(/.+/);
-
-    await setTimeout(1000);
 
     done();
 })
