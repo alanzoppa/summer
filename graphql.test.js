@@ -140,9 +140,6 @@ test('can fetch with graphQL', async (done) => {
             }
         }` 
     ) 
-    //console.log(data);
-    //console.log(data.events[0].attendees);
-
 
     expect(data.events[0].kind).toMatch(/.+/);
     expect(data.events[0].etag).toMatch(/.+/);
@@ -150,16 +147,6 @@ test('can fetch with graphQL', async (done) => {
     expect(data.events[0].timeZone).toMatch(/.+/);
     expect(data.events[0].start).toMatch(/.+/);
     expect(data.events[0].end).toMatch(/.+/);
-
-    //[ "kind", "etag", "summary", "timeZone", "start", "end", ]
-        //.forEach(
-            //key => {
-                //expect(data.events[0][key]).toMatch(/.+/);
-            //}
-        //)
-
-
-
 
     done();
 })
