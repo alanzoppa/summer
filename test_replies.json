@@ -1,0 +1,107 @@
+{
+    "calendarList":
+    {
+        "kind": "calendar#events",
+        "etag": "thisIsAFakePayload",
+        "summary": "Personal",
+        "updated": "2018-04-15T16:42:49.673Z",
+        "timeZone": "America/Los_Angeles",
+        "accessRole": "owner",
+        "defaultReminders": [
+            {
+                "method": "popup",
+                "minutes": 10
+            }
+        ],
+        "nextPageToken": "EiUKGjFubWRmN2piaW8yOHVmN2Zqbmo3cm91bzRuGICA07utw9oC",
+        "items": [
+            {
+                "kind": "calendar#event",
+                "etag": "\"3047620718464000\"",
+                "id": "80el8jibalop89a8c3j1uupl2o_20180415",
+                "status": "confirmed",
+                "htmlLink": "https://www.google.com/calendar/event?eid=ODBlbDhqaWJhbG9wODlhOGMzajF1dXBsMm9fMjAxODA0MTUgY29keS56b3BwYUBt",
+                "created": "2014-06-14T06:06:01.000Z",
+                "updated": "2018-04-15T16:42:49.673Z",
+                "summary": "Met Girl",
+                "creator": {
+                    "email": "cody.zoppa@gmail.com",
+                    "displayName": "Alan Zoppa",
+                    "self": true
+                },
+                "organizer": {
+                    "email": "cody.zoppa@gmail.com",
+                    "displayName": "Alan Zoppa",
+                    "self": true
+                },
+                "start": {
+                    "date": "2018-04-15"
+                },
+                "end": {
+                    "date": "2018-04-16"
+                },
+                "recurringEventId": "80el8jibalop89a8c3j1uupl2o",
+                "originalStartTime": {
+                    "date": "2018-04-15"
+                },
+                "transparency": "transparent",
+                "iCalUID": "80el8jibalop89a8c3j1uupl2o@google.com",
+                "sequence": 0,
+                "attendees": [
+                    {
+                        "email": "alan.zoppa@gmail.com",
+                        "displayName": "C. Alan Zoppa",
+                        "responseStatus": "needsAction"
+                    },
+                    {
+                        "email": "cody.zoppa@gmail.com",
+                        "displayName": "Alan Zoppa",
+                        "organizer": true,
+                        "self": true,
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "reminders": {
+                    "useDefault": false,
+                    "overrides": [
+                        {
+                            "method": "popup",
+                            "minutes": 10
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "calendar#event",
+                "etag": "\"3043677921134000\"",
+                "id": "1nmdf7jbio28uf7fjnj7rouo4n",
+                "status": "confirmed",
+                "htmlLink": "https://www.google.com/calendar/event?eid=MW5tZGY3amJpbzI4dWY3Zmpuajdyb3VvNG4gY29keS56b3BwYUBt",
+                "created": "2018-03-23T21:02:40.000Z",
+                "updated": "2018-03-23T21:02:40.567Z",
+                "summary": "Movers Arrive",
+                "creator": {
+                    "email": "cody.zoppa@gmail.com",
+                    "displayName": "Alan Zoppa",
+                    "self": true
+                },
+                "organizer": {
+                    "email": "cody.zoppa@gmail.com",
+                    "displayName": "Alan Zoppa",
+                    "self": true
+                },
+                "start": {
+                    "dateTime": "2018-04-18T08:00:00-07:00"
+                },
+                "end": {
+                    "dateTime": "2018-04-18T09:00:00-07:00"
+                },
+                "iCalUID": "1nmdf7jbio28uf7fjnj7rouo4n@google.com",
+                "sequence": 0,
+                "reminders": {
+                    "useDefault": true
+                }
+            }
+        ]
+    }
+}

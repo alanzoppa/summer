@@ -52,7 +52,7 @@ const resolvers = {
                 ev.timeZone = results.timeZone;
                 ev.start = ev.start.dateTime || ev.start.date;
                 ev.end = ev.end.dateTime || ev.end.date;
-                console.log(ev);
+                //console.log(ev);
                 return ev;
             });
             return evs;
